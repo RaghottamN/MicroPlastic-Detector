@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
+import LightRays from './LightRays';
 
 export default function UploadZone({ onImageSelect }) {
     const [isDragging, setIsDragging] = useState(false)
@@ -33,12 +34,30 @@ export default function UploadZone({ onImageSelect }) {
 
     return (
         <CardContainer className="inter-var w-full max-w-2xl mx-auto cursor-target">
-            <CardBody className="bg-black/40 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black/40 dark:border-white/[0.1] border-white/10 w-full h-auto rounded-3xl p-8 border backdrop-blur-xl transition-all duration-300">
+            <CardBody className="bg-black/40 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black/40 dark:border-white/[0.1] border-white/10 w-full h-auto rounded-3xl p-8 border backdrop-blur-xl transition-all duration-300 overflow-hidden">
+
+                {/* LightRays Background */}
+                <div className="absolute inset-0 z-0 pointer-events-none">
+                    <LightRays
+                        raysOrigin="center"
+                        raysColor="#a855f7"
+                        raysSpeed={0.8}
+                        lightSpread={0.3}
+                        rayLength={1.5}
+                        followMouse={true}
+                        mouseInfluence={0.15}
+                        noiseAmount={5}
+                        distortion={2}
+                        pulsating={false}
+                        fadeDistance={0.5}
+                        saturation={1.5}
+                    />
+                </div>
 
                 {/* Title Item */}
                 <CardItem
                     translateZ="50"
-                    className="text-2xl font-bold text-center w-full mb-2 bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent"
+                    className="text-2xl font-bold text-center w-full mb-2 bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent relative z-10"
                 >
                     Analyze Your sample
                 </CardItem>
@@ -46,13 +65,13 @@ export default function UploadZone({ onImageSelect }) {
                 <CardItem
                     as="p"
                     translateZ="60"
-                    className="text-neutral-400 text-sm max-w-sm mt-2 text-center w-full mx-auto"
+                    className="text-neutral-400 text-sm max-w-sm mt-2 text-center w-full mx-auto relative z-10"
                 >
                     Upload an image to detect microplastics
                 </CardItem>
 
                 {/* Upload Area Item - Floating */}
-                <CardItem translateZ="100" className="w-full mt-8">
+                <CardItem translateZ="100" className="w-full mt-8 relative z-10">
                     <label
                         className={`
               relative flex flex-col items-center justify-center
@@ -95,7 +114,7 @@ export default function UploadZone({ onImageSelect }) {
 
                 <CardItem
                     translateZ="40"
-                    className="w-full mt-8 flex justify-center text-xs text-gray-500"
+                    className="w-full mt-8 flex justify-center text-xs text-gray-500 relative z-10"
                 >
                     Hover to interact • Drag & drop supported
                 </CardItem>
@@ -104,3 +123,4 @@ export default function UploadZone({ onImageSelect }) {
         </CardContainer>
     )
 }
+

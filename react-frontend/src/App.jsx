@@ -4,7 +4,7 @@ import Header from './components/Header'
 import UploadZone from './components/UploadZone'
 import ResultsView from './components/ResultsView'
 import Footer from './components/Footer'
-import LightRays from './components/LightRays'
+import GridScan from './components/GridScan'
 import TargetCursor from './components/TargetCursor'
 
 const API_URL = 'https://raghottamn-microplastic-detector.hf.space'
@@ -57,16 +57,18 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col relative bg-black overflow-hidden">
-      <div className="fixed inset-0 z-0 opacity-40 pointer-events-none">
-        <LightRays
-          raysOrigin="center"
-          raysColor="#4c1d95"
-          raysSpeed={0.2}
-          lightSpread={0.2}
-          rayLength={0.5}
-          followMouse={true}
-          mouseInfluence={0.5}
-          className="w-full h-full"
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <GridScan
+          sensitivity={0.55}
+          lineThickness={1}
+          linesColor="#392e4e"
+          gridScale={0.1}
+          scanColor="#FF9FFC"
+          scanOpacity={0.4}
+          enablePost={true}
+          bloomIntensity={0.6}
+          chromaticAberration={0.002}
+          noiseIntensity={0.01}
         />
       </div>
 
