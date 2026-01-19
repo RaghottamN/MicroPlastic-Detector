@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
+
 import ScrollRevealContainer from './ScrollRevealContainer';
+import ScrollReveal from './ScrollReveal';
 
 // Initialize Groq API
 const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
@@ -142,9 +144,17 @@ Format the output with clear headings.`;
 
     return (
         <div className="glass-card p-6 mt-6 w-full animate-fade-in">
-            <h3 className="text-xl font-semibold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                AI Environmental Analysis
-            </h3>
+            <div className="mb-4">
+                <ScrollReveal
+                    baseOpacity={0}
+                    enableBlur={true}
+                    baseRotation={5}
+                    blurStrength={10}
+                    textClassName="text-xl font-semibold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent block"
+                >
+                    AI Environmental Analysis
+                </ScrollReveal>
+            </div>
 
             {/* Initial Analysis */}
             <div className="mb-6 prose prose-invert max-w-none">
@@ -174,9 +184,17 @@ Format the output with clear headings.`;
             {/* Chat Interface */}
             {!loading && !error && (
                 <div className="border-t border-white/10 pt-6">
-                    <h4 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-4">
-                        Ask Follow-up Questions
-                    </h4>
+                    <div className="mb-4">
+                        <ScrollReveal
+                            baseOpacity={0}
+                            enableBlur={true}
+                            baseRotation={2}
+                            blurStrength={4}
+                            textClassName="text-sm font-medium text-gray-400 uppercase tracking-wider block"
+                        >
+                            Ask Follow-up Questions
+                        </ScrollReveal>
+                    </div>
 
                     <div className="space-y-4 mb-4 max-h-[400px] overflow-y-auto custom-scrollbar">
                         {chatHistory.map((msg, idx) => (
