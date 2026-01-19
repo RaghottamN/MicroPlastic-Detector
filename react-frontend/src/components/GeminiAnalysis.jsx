@@ -2,9 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 
+
 // Initialize Gemini
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null;
+
 
 
 export default function GeminiAnalysis({ results, image }) {
@@ -17,9 +19,11 @@ export default function GeminiAnalysis({ results, image }) {
     const [chatSession, setChatSession] = useState(null);
 
 
+
     // Initial Analysis when results change
     useEffect(() => {
         if (!results || !genAI) return;
+
 
 
         const generateAnalysis = async () => {
@@ -29,8 +33,10 @@ export default function GeminiAnalysis({ results, image }) {
             setChatHistory([]);
 
 
+
             try {
-                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+                const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
 
 
                 const detections = results.detections || [];
@@ -38,6 +44,7 @@ export default function GeminiAnalysis({ results, image }) {
                 const avgConf = detections.length
                     ? (detections.reduce((a, b) => a + b.confidence, 0) / detections.length * 100).toFixed(1)
                     : 0;
+
 
 
                 const prompt = `
@@ -57,10 +64,12 @@ export default function GeminiAnalysis({ results, image }) {
                 `;
 
 
+
                 // 1. Generate initial analysis
                 const result = await model.generateContent(prompt);
                 const responseText = result.response.text();
                 setAnalysis(responseText);
+
 
 
                 // 2. Initialize chat session with history so it knows the context
@@ -79,6 +88,7 @@ export default function GeminiAnalysis({ results, image }) {
                 setChatSession(session);
 
 
+
             } catch (err) {
                 console.error("Gemini Error:", err);
                 setError("Failed to generate analysis. Please check your API key.");
@@ -88,21 +98,26 @@ export default function GeminiAnalysis({ results, image }) {
         };
 
 
+
         generateAnalysis();
     }, [results]);
+
 
 
     const handleSend = async () => {
         if (!input.trim() || !chatSession) return;
 
 
+
         const userMsg = input;
         setInput('');
+
 
 
         // Optimistically update UI
         setChatHistory(prev => [...prev, { role: 'user', text: userMsg }]);
         setChatLoading(true);
+
 
 
         try {
@@ -119,6 +134,7 @@ export default function GeminiAnalysis({ results, image }) {
     };
 
 
+
     if (!API_KEY) {
         return (
             <div className="glass-card p-6 mt-6">
@@ -128,7 +144,9 @@ export default function GeminiAnalysis({ results, image }) {
     }
 
 
+
     if (!results) return null;
+
 
 
     return (
@@ -136,6 +154,7 @@ export default function GeminiAnalysis({ results, image }) {
             <h3 className="text-xl font-semibold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 AI Environmental Analysis
             </h3>
+
 
 
             {/* Initial Analysis */}
@@ -157,12 +176,14 @@ export default function GeminiAnalysis({ results, image }) {
             </div>
 
 
+
             {/* Chat Interface */}
             {!loading && !error && (
                 <div className="border-t border-white/10 pt-6">
                     <h4 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-4">
                         Ask Follow-up Questions
                     </h4>
+
 
 
                     <div className="space-y-4 mb-4 max-h-[300px] overflow-y-auto custom-scrollbar">
@@ -188,6 +209,7 @@ export default function GeminiAnalysis({ results, image }) {
                             </div>
                         )}
                     </div>
+
 
 
                     <div className="flex gap-2">
